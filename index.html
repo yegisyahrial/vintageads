@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vintage Ads Co. - Katalog & Galeri Iklan Klasik</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        cream: '#fcf8f2',
+                        'cream-dark': '#f4eee1',
+                        charcoal: '#2c2523',
+                        'charcoal-light': '#4a3f3c',
+                        rust: '#c85a32',
+                        'rust-dark': '#a44422',
+                        vgold: '#d49a37',
+                        olive: '#5a6b46',
+                    },
+                    fontFamily: {
+                        serif: ['Playfair Display', 'Georgia', 'serif'],
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;0,900;1,400&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        body {
+            background-color: #fcf8f2;
+            color: #2c2523;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .font-serif-title {
+            font-family: 'Playfair Display', Georgia, serif;
+        }
+
+        /* Vintage Paper Texture Overlay */
+        .vintage-bg-pattern {
+            background-image: radial-gradient(#d49a37 0.75px, transparent 0.75px), radial-gradient(#d49a37 0.75px, #fcf8f2 0.75px);
+            background-size: 30px 30px;
+            background-position: 0 0, 15px 15px;
+            opacity: 0.15;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f4eee1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #c85a32;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a44422;
+        }
+
+        .badge-tag {
+            box-shadow: 2px 2px 0px rgba(44, 37, 35, 0.15);
+        }
+
+        .retro-card {
+            transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+            border: 1px solid rgba(74, 63, 60, 0.12);
+        }
+
+        .retro-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 24px -10px rgba(44, 37, 35, 0.2);
+            border-color: rgba(200, 90, 50, 0.4);
+        }
+
+        .page-view {
+            transition: opacity 0.25s ease-in-out;
+        }
+    </style>
+</head>
+<body class="relative min-h-screen flex flex-col antialiased">
+
+    <!-- Background Pattern Overlay -->
+    <div class="fixed inset-0 vintage-bg-pattern pointer-events-none z-0"></div>
+
+    <!-- Header / Navigation Bar -->
+    <header class="sticky top-0 z-40 bg-cream/90 backdrop-blur-md border-b border-charcoal/10 shadow-sm transition-all">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                
+                <!-- Brand Logo -->
+                <a href="#katalog" onclick="navigateToHome()" class="flex items-center gap-3 group">
+                    <div class="w-10 h-10 rounded-lg bg-rust text-cream flex items-center justify-center font-serif-title font-bold text-xl shadow-md group-hover:bg-rust-dark transition-colors">
+                        V
+                    </div>
+                    <div>
+                        <span class="font-serif-title text-2xl font-bold tracking-tight text-charcoal block leading-none">Vintage Ads Co.</span>
+                        <span class="text-xs text-rust font-semibold tracking-widest uppercase">Galeri Iklan Klasik</span>
+                    </div>
+                </a>
+
+                <!-- Desktop Navigation Links -->
+                <nav class="hidden md:flex items-center space-x-8 text-sm font-medium text-charcoal-light">
+                    <a href="#beranda" onclick="navigateToHome()" class="hover:text-rust transition-colors py-1 border-b-2 border-transparent hover:border-rust">Beranda</a>
+                    <a href="#katalog" onclick="navigateToHome(); filterCategory('all')" class="hover:text-rust transition-colors py-1 border-b-2 border-transparent hover:border-rust">Semua Katalog</a>
+                    <a href="#katalog" onclick="navigateToHome(); filterCategory('otomotif')" class="hover:text-rust transition-colors py-1 border-b-2 border-transparent hover:border-rust">Otomotif</a>
+                    <a href="#katalog" onclick="navigateToHome(); filterCategory('non-otomotif')" class="hover:text-rust transition-colors py-1 border-b-2 border-transparent hover:border-rust">Non-Otomotif</a>
+                    <a href="#tentang" onclick="navigateToHome()" class="hover:text-rust transition-colors py-1 border-b-2 border-transparent hover:border-rust">Tentang Kami</a>
+                </nav>
+
+                <!-- Search & Admin Button -->
+                <div class="hidden sm:flex items-center gap-3">
+                    <button onclick="openAddModal()" class="inline-flex items-center gap-2 bg-olive hover:bg-olive/90 text-white text-xs font-semibold px-3 py-2 rounded-lg transition-all shadow-sm">
+                        <i class="fa-solid fa-plus text-xs"></i>
+                        <span>Tambah Artikel</span>
+                    </button>
+                    <a href="https://wa.me/6281234567890?text=Halo%20Vintage%20Ads%20Co.,%20saya%20ingin%20bertanya%20mengenai%20koleksi%20iklan%20vintage." target="_blank" class="inline-flex items-center gap-2 bg-rust hover:bg-rust-dark text-cream text-xs font-semibold px-4 py-2 rounded-lg transition-all shadow-sm hover:shadow">
+                        <i class="fa-brands fa-whatsapp text-sm"></i>
+                        <span>Kontak WA</span>
+                    </a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <div class="flex items-center md:hidden gap-2">
+                    <button onclick="openAddModal()" class="p-2 text-olive hover:text-olive/80">
+                        <i class="fa-solid fa-circle-plus text-xl"></i>
+                    </button>
+                    <button id="mobileMenuBtn" class="text-charcoal p-2 focus:outline-none">
+                        <i class="fa-solid fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation Menu -->
+        <div id="mobileMenu" class="hidden md:hidden border-t border-charcoal/10 bg-cream-dark px-4 pt-3 pb-6 space-y-3 shadow-inner">
+            <a href="#beranda" onclick="navigateToHome(); closeMobileMenu()" class="block text-charcoal hover:text-rust font-medium">Beranda</a>
+            <a href="#katalog" onclick="navigateToHome(); filterCategory('all'); closeMobileMenu()" class="block text-charcoal hover:text-rust font-medium">Semua Katalog</a>
+            <a href="#katalog" onclick="navigateToHome(); filterCategory('otomotif'); closeMobileMenu()" class="block text-charcoal hover:text-rust font-medium">Otomotif</a>
+            <a href="#katalog" onclick="navigateToHome(); filterCategory('non-otomotif'); closeMobileMenu()" class="block text-charcoal hover:text-rust font-medium">Non-Otomotif</a>
+            <a href="#tentang" onclick="navigateToHome(); closeMobileMenu()" class="block text-charcoal hover:text-rust font-medium">Tentang Kami</a>
+            <div class="pt-2">
+                <a href="https://wa.me/6281234567890?text=Halo%20Vintage%20Ads%20Co.,%20saya%20ingin%20bertanya%20koleksi." target="_blank" class="w-full inline-flex items-center justify-center gap-2 bg-rust text-cream font-semibold py-2.5 rounded-lg">
+                    <i class="fa-brands fa-whatsapp text-base"></i>
+                    <span>Tanya via WhatsApp</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN PAGE CONTAINER (SPA RENDERER) -->
+    <main class="flex-grow">
+        
+        <!-- ==================== VIEW 1: HOMEPAGE / CATALOG VIEW ==================== -->
+        <div id="homeView" class="page-view">
+            
+            <!-- Hero Section -->
+            <section id="beranda" class="relative z-10 py-10 md:py-16 overflow-hidden">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+                        
+                        <!-- Left Text Content -->
+                        <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+                            <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-vgold/15 text-vgold border border-vgold/30 text-xs font-bold tracking-wider uppercase">
+                                <i class="fa-solid fa-gem text-xs"></i> Koleksi Iklan Cetak Authentic & Retro Prints
+                            </div>
+                            
+                            <h1 class="font-serif-title text-3xl sm:text-5xl lg:text-6xl font-black text-charcoal leading-tight">
+                                Pajangan Estetik Bersejarah untuk <span class="italic text-rust underline decoration-vgold/60 decoration-wavy decoration-2">Kafe, Garasi & Rumah</span>.
+                            </h1>
+                            
+                            <p class="text-sm sm:text-base text-charcoal-light leading-relaxed max-w-2xl mx-auto lg:mx-0">
+                                Bawa nuansa nostalgia abad ke-20 ke dalam ruangan Anda. Menyediakan ribuan iklan vintage cetak otomotif Jepang/Eropa/USA, makanan, minuman, hingga hobi klasik yang siap dibingkai.
+                            </p>
+
+                            <!-- CTA Actions -->
+                            <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-2">
+                                <a href="#katalog" class="w-full sm:w-auto px-8 py-3.5 bg-rust hover:bg-rust-dark text-cream font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all text-center flex items-center justify-center gap-2">
+                                    <span>Eksplor Katalog</span>
+                                    <i class="fa-solid fa-arrow-right text-xs"></i>
+                                </a>
+                                <a href="#tentang" class="w-full sm:w-auto px-8 py-3.5 bg-cream-dark hover:bg-charcoal/5 text-charcoal font-semibold rounded-xl border border-charcoal/20 transition-all text-center">
+                                    Company Profile
+                                </a>
+                            </div>
+
+                            <!-- Highlight Badges -->
+                            <div class="pt-6 grid grid-cols-3 gap-4 border-t border-charcoal/10 text-center lg:text-left">
+                                <div>
+                                    <span class="block font-serif-title text-xl sm:text-2xl font-bold text-rust">100%</span>
+                                    <span class="text-xs text-charcoal-light font-medium">Bahan High-Grade</span>
+                                </div>
+                                <div>
+                                    <span class="block font-serif-title text-xl sm:text-2xl font-bold text-olive">500+</span>
+                                    <span class="text-xs text-charcoal-light font-medium">Arsip Iklan Langka</span>
+                                </div>
+                                <div>
+                                    <span class="block font-serif-title text-xl sm:text-2xl font-bold text-vgold">Siap</span>
+                                    <span class="text-xs text-charcoal-light font-medium">Pajang & Frame</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Right Featured Hero Frame -->
+                        <div class="lg:col-span-5 relative">
+                            <div class="relative mx-auto max-w-md lg:max-w-none">
+                                <div class="absolute -inset-3 rounded-2xl bg-gradient-to-tr from-rust/20 via-vgold/20 to-olive/20 blur-xl opacity-70"></div>
+                                <div class="relative bg-cream-dark p-4 rounded-2xl border-2 border-charcoal/20 shadow-2xl space-y-3">
+                                    <div class="relative aspect-[4/5] overflow-hidden rounded-xl bg-charcoal/5">
+                                        <img src="https://images.unsplash.com/photo-1563720223185-11003d516935?q=80&w=800&auto=format&fit=crop" alt="Vintage Advertisement Showroom" class="w-full h-full object-cover transform hover:scale-105 transition-transform duration-700">
+                                        <div class="absolute top-3 left-3 bg-charcoal/80 text-cream text-xs font-mono px-3 py-1 rounded-full backdrop-blur-sm">
+                                            <i class="fa-solid fa-sparkles text-vgold mr-1"></i> Rekomendasi Dekorasi Kafe
+                                        </div>
+                                    </div>
+                                    <div class="p-2 flex items-center justify-between">
+                                        <div>
+                                            <h3 class="font-serif-title font-bold text-charcoal text-base">Nostalgia Otomotif & Lifestyle</h3>
+                                            <p class="text-xs text-charcoal-light">Tampilan Otentik Rekomendasi Garasi & Kafe</p>
+                                        </div>
+                                        <span class="text-xs bg-rust/10 text-rust font-bold px-2.5 py-1 rounded-lg">1960s - 1990s</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+
+            <!-- Catalog Section with Search & Filter -->
+            <section id="katalog" class="relative z-10 py-12 bg-cream-dark/50 border-t border-b border-charcoal/10">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    
+                    <!-- Section Header -->
+                    <div class="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
+                        <div>
+                            <span class="text-xs font-bold uppercase tracking-widest text-rust">Koleksi Terlengkap</span>
+                            <h2 class="font-serif-title text-3xl sm:text-4xl font-bold text-charcoal mt-1">Katalog Artikel Iklan Vintage</h2>
+                        </div>
+                        
+                        <!-- Search Bar -->
+                        <div class="w-full md:w-80 relative">
+                            <input type="text" id="searchInput" oninput="handleSearch()" placeholder="Cari iklan, era, atau merk..." class="w-full pl-10 pr-4 py-2.5 bg-cream border border-charcoal/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-rust/50 text-sm text-charcoal placeholder:text-charcoal/40 shadow-sm">
+                            <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3.5 text-charcoal/40 text-sm"></i>
+                        </div>
+                    </div>
+
+                    <!-- Category Filter Tabs -->
+                    <div class="space-y-4 mb-8">
+                        <div class="flex flex-wrap items-center gap-2 border-b border-charcoal/10 pb-4">
+                            <button onclick="filterCategory('all')" id="tab-all" class="cat-btn active font-semibold text-sm px-5 py-2 rounded-xl transition-all bg-rust text-cream shadow-sm">
+                                <i class="fa-solid fa-border-all mr-1.5"></i> Semua Produk
+                            </button>
+                            <button onclick="filterCategory('otomotif')" id="tab-otomotif" class="cat-btn font-semibold text-sm px-5 py-2 rounded-xl transition-all bg-cream border border-charcoal/15 text-charcoal hover:border-rust">
+                                <i class="fa-solid fa-car mr-1.5 text-rust"></i> Iklan Otomotif
+                            </button>
+                            <button onclick="filterCategory('non-otomotif')" id="tab-non-otomotif" class="cat-btn font-semibold text-sm px-5 py-2 rounded-xl transition-all bg-cream border border-charcoal/15 text-charcoal hover:border-rust">
+                                <i class="fa-solid fa-mug-hot mr-1.5 text-olive"></i> Non-Otomotif
+                            </button>
+                        </div>
+
+                        <!-- Sub-Category / Tag Pills -->
+                        <div id="subCategoryPills" class="flex flex-wrap items-center gap-2 text-xs">
+                            <span class="text-charcoal-light font-medium mr-1"><i class="fa-solid fa-filter text-vgold"></i> Filter Tag:</span>
+                            <button onclick="filterSubTag('all', event)" class="subtab-btn font-medium px-3 py-1 rounded-lg bg-charcoal text-cream">Semua Tag</button>
+                            <button onclick="filterSubTag('jepang', event)" class="subtab-btn font-medium px-3 py-1 rounded-lg bg-cream border border-charcoal/15 hover:bg-cream-dark">Jepang</button>
+                            <button onclick="filterSubTag('eropa', event)" class="subtab-btn font-medium px-3 py-1 rounded-lg bg-cream border border-charcoal/15 hover:bg-cream-dark">Eropa</button>
+                            <button onclick="filterSubTag('usa', event)" class="subtab-btn font-medium px-3 py-1 rounded-lg bg-cream border border-charcoal/15 hover:bg-cream-dark">USA</button>
+                            <button onclick="filterSubTag('makanan', event)" class="subtab-btn font-medium px-3 py-1 rounded-lg bg-cream border border-charcoal/15 hover:bg-cream-dark">Makanan</button>
+                            <button onclick="filterSubTag('minuman', event)" class="subtab-btn font-medium px-3 py-1 rounded-lg bg-cream border border-charcoal/15 hover:bg-cream-dark">Minuman</button>
+                            <button onclick="filterSubTag('hobi', event)" class="subtab-btn font-medium px-3 py-1 rounded-lg bg-cream border border-charcoal/15 hover:bg-cream-dark">Hobi</button>
+                        </div>
+                    </div>
+
+                    <!-- Products Grid Container -->
+                    <div id="productsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <!-- Populated via JS -->
+                    </div>
+
+                    <!-- Empty State Warning -->
+                    <div id="emptyState" class="hidden text-center py-16 space-y-3">
+                        <div class="w-16 h-16 bg-rust/10 text-rust rounded-full flex items-center justify-center mx-auto text-2xl">
+                            <i class="fa-solid fa-box-open"></i>
+                        </div>
+                        <h3 class="font-serif-title text-xl font-bold text-charcoal">Artikel Iklan Tidak Ditemukan</h3>
+                        <p class="text-sm text-charcoal-light max-w-md mx-auto">Coba gunakan kata kunci lain atau ubah filter kategori untuk melihat koleksi vintage kami.</p>
+                        <button onclick="resetFilters()" class="mt-2 inline-flex items-center gap-2 text-xs font-bold text-rust hover:underline">
+                            <i class="fa-solid fa-rotate-left"></i> Reset Filter
+                        </button>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- Company Profile -->
+            <section id="tentang" class="py-16 md:py-24 relative z-10">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                        <div class="relative">
+                            <div class="grid grid-cols-2 gap-4">
+                                <img src="https://images.unsplash.com/photo-1513519245088-0e12902e5a38?q=80&w=600&auto=format&fit=crop" alt="Retro Interior Wall Decor" class="rounded-2xl shadow-md border-2 border-charcoal/10 object-cover h-64 w-full">
+                                <img src="https://images.unsplash.com/photo-1527011046414-4781f1f94f8c?q=80&w=600&auto=format&fit=crop" alt="Vintage Garage Decoration" class="rounded-2xl shadow-md border-2 border-charcoal/10 object-cover h-64 w-full mt-6">
+                            </div>
+                            <div class="absolute -bottom-6 left-1/2 transform -translate-x-1/2 bg-charcoal text-cream p-4 rounded-xl shadow-xl border border-vgold/30 text-center w-5/6">
+                                <p class="font-serif-title font-bold text-vgold text-sm">"Mengubah Dinding Biasa Menjadi Galeri Nostalgia Masa Lalu"</p>
+                            </div>
+                        </div>
+
+                        <div class="space-y-6">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-widest text-olive">Company Profile</span>
+                                <h2 class="font-serif-title text-3xl sm:text-4xl font-bold text-charcoal mt-1">Tentang Vintage Ads Co.</h2>
+                            </div>
+                            <p class="text-charcoal-light leading-relaxed text-sm sm:text-base">
+                                <strong>Vintage Ads Co.</strong> adalah penyedia dan pengarsip khusus iklan-iklan cetak klasik dari era 1950-an hingga 1990-an. Kami percaya bahwa setiap iklan cetak lama menyimpan nilai sejarah desain, seni tipografi, dan daya tarik emosional yang tak ternilai.
+                            </p>
+                            <div class="space-y-4 pt-2">
+                                <div class="flex items-start gap-3">
+                                    <div class="w-8 h-8 rounded-lg bg-rust/10 text-rust flex items-center justify-center shrink-0 font-bold mt-1"><i class="fa-solid fa-check"></i></div>
+                                    <div>
+                                        <h4 class="font-bold text-charcoal text-sm">Spesialis Rekomendasi Pajangan Cafe & Garasi</h4>
+                                        <p class="text-xs text-charcoal-light">Sangat cocok untuk dekorasi dinding kedai kopi retro, bengkel restorasi mobil klasik, hingga ruang santai pribadi.</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start gap-3">
+                                    <div class="w-8 h-8 rounded-lg bg-vgold/10 text-vgold flex items-center justify-center shrink-0 font-bold mt-1"><i class="fa-solid fa-award"></i></div>
+                                    <div>
+                                        <h4 class="font-bold text-charcoal text-sm">Kualitas Cetakan & Arsip Asli Terjaga</h4>
+                                        <p class="text-xs text-charcoal-light">Setiap lembar karya dibersihkan secara digital atau dipertahankan tekstur keasliannya agar hasil bingkai terlihat premium.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- ==================== VIEW 2: HALAMAN KHUSUS DETAIL PRODUK (SINGLE POST PAGE) ==================== -->
+        <div id="detailView" class="page-view hidden py-8 md:py-12 min-h-screen">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+                
+                <!-- Navigation Breadcrumb & Back Button -->
+                <div class="flex flex-wrap items-center justify-between gap-4 border-b border-charcoal/10 pb-4">
+                    <button onclick="navigateToHome()" class="inline-flex items-center gap-2 bg-cream-dark hover:bg-rust hover:text-cream text-charcoal border border-charcoal/20 px-4 py-2 rounded-xl text-xs font-bold transition-all shadow-sm">
+                        <i class="fa-solid fa-arrow-left"></i>
+                        <span>Kembali ke Katalog</span>
+                    </button>
+
+                    <nav class="flex items-center gap-2 text-xs text-charcoal-light">
+                        <a href="#katalog" onclick="navigateToHome()" class="hover:text-rust">Katalog</a>
+                        <span>/</span>
+                        <span id="detailBreadcrumbCat" class="capitalize font-semibold text-rust">Otomotif</span>
+                        <span>/</span>
+                        <span id="detailBreadcrumbTitle" class="truncate max-w-[200px] text-charcoal font-bold">Judul Produk</span>
+                    </nav>
+                </div>
+
+                <!-- Single Product Detail Layout -->
+                <div class="bg-cream rounded-2xl border-2 border-charcoal/15 shadow-xl overflow-hidden grid grid-cols-1 lg:grid-cols-12 gap-0">
+                    
+                    <!-- Left: Large Image Preview Frame -->
+                    <div class="lg:col-span-6 bg-charcoal/5 p-6 sm:p-10 flex flex-col justify-center items-center border-b lg:border-b-0 lg:border-r border-charcoal/10 relative">
+                        <div class="relative w-full max-w-md">
+                            <img id="detailImg" src="" alt="Detail Poster Vintage" class="w-full h-auto max-h-[500px] object-contain rounded-xl border-2 border-charcoal/20 shadow-2xl mx-auto">
+                            <span id="detailEraBadge" class="absolute top-3 left-3 bg-rust text-cream font-bold text-xs px-3 py-1.5 rounded-lg shadow-md"></span>
+                        </div>
+                        <p class="text-[11px] text-charcoal-light/70 text-center mt-4 italic">
+                            <i class="fa-solid fa-magnifying-glass-plus mr-1"></i> Tampilan aktual poster iklan vintage siap cetak & frame.
+                        </p>
+                    </div>
+
+                    <!-- Right: Product Specifications & Story -->
+                    <div class="lg:col-span-6 p-6 sm:p-8 flex flex-col justify-between space-y-6 bg-cream">
+                        <div class="space-y-4">
+                            <!-- Category Badges -->
+                            <div class="flex items-center gap-2">
+                                <span id="detailCatBadge" class="text-xs font-bold px-3 py-1 rounded-full bg-olive/15 text-olive border border-olive/30 uppercase tracking-wider"></span>
+                                <span id="detailSubTagBadge" class="text-xs font-semibold text-charcoal-light bg-cream-dark px-3 py-1 rounded-full border border-charcoal/10 uppercase"></span>
+                            </div>
+
+                            <!-- Product Title -->
+                            <h1 id="detailTitle" class="font-serif-title text-2xl sm:text-3xl font-bold text-charcoal leading-tight"></h1>
+
+                            <!-- Price Display -->
+                            <div class="bg-cream-dark/60 p-4 rounded-xl border border-charcoal/10 flex items-center justify-between">
+                                <div>
+                                    <span class="text-[11px] text-charcoal-light uppercase font-semibold block">Harga Artikel / Cetakan</span>
+                                    <span id="detailPrice" class="font-serif-title font-bold text-2xl text-rust"></span>
+                                </div>
+                                <span class="text-xs bg-emerald-100 text-emerald-800 font-semibold px-2.5 py-1 rounded-md border border-emerald-300">
+                                    <i class="fa-solid fa-check-circle mr-1"></i> Stok Tersedia
+                                </span>
+                            </div>
+
+                            <!-- Specification Card Table -->
+                            <div class="space-y-2">
+                                <h3 class="font-serif-title font-bold text-sm text-charcoal uppercase tracking-wider">Spesifikasi Pajangan:</h3>
+                                <div class="grid grid-cols-2 gap-2 text-xs">
+                                    <div class="p-2.5 bg-cream-dark rounded-lg border border-charcoal/10">
+                                        <span class="text-charcoal-light block text-[10px]">Rekomendasi Pajangan</span>
+                                        <span id="detailSpot" class="font-semibold text-charcoal"></span>
+                                    </div>
+                                    <div class="p-2.5 bg-cream-dark rounded-lg border border-charcoal/10">
+                                        <span class="text-charcoal-light block text-[10px]">Ukuran Standar Bingkai</span>
+                                        <span class="font-semibold text-charcoal">A3 (30x42cm) / A4</span>
+                                    </div>
+                                    <div class="p-2.5 bg-cream-dark rounded-lg border border-charcoal/10">
+                                        <span class="text-charcoal-light block text-[10px]">Asal Negara & Era</span>
+                                        <span id="detailOrigin" class="font-semibold text-charcoal"></span>
+                                    </div>
+                                    <div class="p-2.5 bg-cream-dark rounded-lg border border-charcoal/10">
+                                        <span class="text-charcoal-light block text-[10px]">Kertas & Cetakan</span>
+                                        <span class="font-semibold text-charcoal">Authentic Matte Paper</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Description / History Article -->
+                            <div class="space-y-2 pt-2 border-t border-charcoal/10">
+                                <h3 class="font-serif-title font-bold text-sm text-charcoal uppercase tracking-wider">Sejarah & Deskripsi Artikel:</h3>
+                                <p id="detailDesc" class="text-xs sm:text-sm text-charcoal-light leading-relaxed"></p>
+                            </div>
+                        </div>
+
+                        <!-- Action Button WhatsApp -->
+                        <div class="pt-6 border-t border-charcoal/10 space-y-3">
+                            <a id="detailWaBtn" href="#" target="_blank" class="w-full inline-flex items-center justify-center gap-3 bg-emerald-700 hover:bg-emerald-800 text-white font-bold py-3.5 px-6 rounded-xl shadow-lg transition-all text-sm hover:shadow-xl">
+                                <i class="fa-brands fa-whatsapp text-xl"></i>
+                                <span>Pesan Sekarang via WhatsApp</span>
+                            </a>
+                            <div class="flex items-center justify-center gap-4 text-[11px] text-charcoal-light">
+                                <span><i class="fa-solid fa-shield-halved text-rust mr-1"></i> Packing Hardboard Aman</span>
+                                <span><i class="fa-solid fa-truck text-olive mr-1"></i> Pengiriman Seluruh Indonesia</span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Related Products Suggestion -->
+                <div class="pt-8 border-t border-charcoal/10">
+                    <h3 class="font-serif-title font-bold text-xl text-charcoal mb-4">Rekomendasi Koleksi Lainnya</h3>
+                    <div id="relatedGrid" class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                        <!-- Populated via JS -->
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer Section -->
+    <footer class="bg-charcoal text-cream pt-12 pb-8 border-t-4 border-rust relative z-10 mt-auto">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+                <div class="space-y-4 md:col-span-1">
+                    <div class="flex items-center gap-3">
+                        <div class="w-9 h-9 rounded-lg bg-rust text-cream flex items-center justify-center font-serif-title font-bold text-lg">V</div>
+                        <span class="font-serif-title text-xl font-bold tracking-tight text-cream">Vintage Ads Co.</span>
+                    </div>
+                    <p class="text-xs text-cream/70 leading-relaxed">
+                        Galeri penyedia pajangan iklan vintage cetak untuk restoran, kafe, garasi otomotif, dan dekorasi rumah bergaya klasik.
+                    </p>
+                </div>
+                <div>
+                    <h4 class="font-serif-title font-bold text-vgold text-sm mb-3 uppercase tracking-wider">Navigasi</h4>
+                    <ul class="space-y-2 text-xs text-cream/80">
+                        <li><a href="#beranda" onclick="navigateToHome()" class="hover:text-rust transition-colors">Beranda</a></li>
+                        <li><a href="#katalog" onclick="navigateToHome(); filterCategory('otomotif')" class="hover:text-rust transition-colors">Katalog Otomotif</a></li>
+                        <li><a href="#katalog" onclick="navigateToHome(); filterCategory('non-otomotif')" class="hover:text-rust transition-colors">Katalog Non-Otomotif</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-serif-title font-bold text-vgold text-sm mb-3 uppercase tracking-wider">Kategori Pajangan</h4>
+                    <ul class="space-y-2 text-xs text-cream/80">
+                        <li><span class="hover:text-rust cursor-pointer" onclick="navigateToHome(); filterSubTag('jepang')">Mobil & Motor Jepang</span></li>
+                        <li><span class="hover:text-rust cursor-pointer" onclick="navigateToHome(); filterSubTag('eropa')">Mobil Klasik Eropa</span></li>
+                        <li><span class="hover:text-rust cursor-pointer" onclick="navigateToHome(); filterSubTag('usa')">American Muscle Car</span></li>
+                    </ul>
+                </div>
+                <div class="space-y-3">
+                    <h4 class="font-serif-title font-bold text-vgold text-sm mb-3 uppercase tracking-wider">Hubungi Kami</h4>
+                    <p class="text-xs text-cream/80"><i class="fa-brands fa-whatsapp text-emerald-400 mr-2"></i> +62 812-3456-7890</p>
+                    <p class="text-xs text-cream/80"><i class="fa-solid fa-envelope text-vgold mr-2"></i> info@vintageadsco.id</p>
+                </div>
+            </div>
+            <div class="border-t border-cream/10 pt-6 text-center text-xs text-cream/50 flex flex-col sm:flex-row items-center justify-between gap-3">
+                <p>&copy; 2026 Vintage Ads Co. All rights reserved.</p>
+                <p>Website Katalog Online & Company Profile</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- MODAL: Add New Article (Admin Simulation) -->
+    <div id="addModal" class="fixed inset-0 z-50 hidden overflow-y-auto bg-charcoal/70 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-cream rounded-2xl max-w-lg w-full border-2 border-charcoal/20 shadow-2xl p-6 relative my-8">
+            <button onclick="closeAddModal()" class="absolute top-4 right-4 bg-charcoal/80 hover:bg-rust text-cream w-8 h-8 rounded-full flex items-center justify-center">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div class="mb-4">
+                <span class="text-xs font-bold uppercase tracking-widest text-olive">Admin Panel Toko</span>
+                <h3 class="font-serif-title text-2xl font-bold text-charcoal">Tambah Artikel Iklan Baru</h3>
+                <p class="text-xs text-charcoal-light">Tambahkan artikel produk iklan vintage baru secara realtime ke katalog.</p>
+            </div>
+            <form id="addArticleForm" onsubmit="handleAddNewArticle(event)" class="space-y-3 text-xs">
+                <div>
+                    <label class="block font-semibold text-charcoal mb-1">Judul Artikel / Iklan</label>
+                    <input type="text" id="newTitle" required placeholder="Contoh: Iklan Toyota Celica 1977" class="w-full p-2.5 bg-cream-dark border border-charcoal/20 rounded-lg text-charcoal outline-none">
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block font-semibold text-charcoal mb-1">Kategori Utama</label>
+                        <select id="newCategory" required class="w-full p-2.5 bg-cream-dark border border-charcoal/20 rounded-lg text-charcoal outline-none">
+                            <option value="otomotif">Otomotif</option>
+                            <option value="non-otomotif">Non-Otomotif</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block font-semibold text-charcoal mb-1">Sub-Tag</label>
+                        <select id="newSubTag" required class="w-full p-2.5 bg-cream-dark border border-charcoal/20 rounded-lg text-charcoal outline-none">
+                            <option value="jepang">Jepang (Otomotif)</option>
+                            <option value="eropa">Eropa (Otomotif)</option>
+                            <option value="usa">USA (Otomotif)</option>
+                            <option value="makanan">Makanan</option>
+                            <option value="minuman">Minuman</option>
+                            <option value="hobi">Hobi / Lifestyle</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block font-semibold text-charcoal mb-1">Tahun / Era</label>
+                        <input type="text" id="newEra" required placeholder="Contoh: 1970s" class="w-full p-2.5 bg-cream-dark border border-charcoal/20 rounded-lg text-charcoal outline-none">
+                    </div>
+                    <div>
+                        <label class="block font-semibold text-charcoal mb-1">Harga (Rp)</label>
+                        <input type="text" id="newPrice" required placeholder="Contoh: Rp 135.000" class="w-full p-2.5 bg-cream-dark border border-charcoal/20 rounded-lg text-charcoal outline-none">
+                    </div>
+                </div>
+                <div>
+                    <label class="block font-semibold text-charcoal mb-1">Rekomendasi Tempat Pajang</label>
+                    <input type="text" id="newSpot" required placeholder="Contoh: Garasi, Resto Retro, Cafe" class="w-full p-2.5 bg-cream-dark border border-charcoal/20 rounded-lg text-charcoal outline-none">
+                </div>
+                <div>
+                    <label class="block font-semibold text-charcoal mb-1">URL Gambar Poster Iklan</label>
+                    <input type="url" id="newImage" required placeholder="https://..." class="w-full p-2.5 bg-cream-dark border border-charcoal/20 rounded-lg text-charcoal outline-none">
+                </div>
+                <div>
+                    <label class="block font-semibold text-charcoal mb-1">Deskripsi / Cerita Iklan</label>
+                    <textarea id="newDesc" rows="3" required placeholder="Tuliskan latar belakang iklan ini..." class="w-full p-2 bg-cream-dark border border-charcoal/20 rounded-lg text-charcoal outline-none"></textarea>
+                </div>
+                <button type="submit" class="w-full py-3 bg-rust hover:bg-rust-dark text-cream font-bold rounded-xl shadow transition-all text-sm mt-2">
+                    <i class="fa-solid fa-plus-circle mr-1"></i> Terbitkan Artikel ke Katalog
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT APPLICATION LOGIC -->
+    <script>
+        // Data Products Array
+        const defaultProducts = [
+            {
+                id: 1,
+                title: "Iklan Cetak Toyota Celica Liftback 1977",
+                category: "otomotif",
+                subTag: "jepang",
+                era: "1970s",
+                origin: "Jepang (1977)",
+                price: "Rp 135.000",
+                spot: "Garasi Otomotif, Cafe Retro, Ruang Tamu",
+                image: "https://images.unsplash.com/photo-1617814076367-b759c7d7e738?q=80&w=600&auto=format&fit=crop",
+                description: "Iklan cetak otentik era kejayaan mobil sport Jepang 70-an. Menampilkan garis desain khas Celica TA22 yang legendaris. Sangat cocok untuk memberikan nuansa klasik maskulin di dinding garasi atau kafe retro."
+            },
+            {
+                id: 2,
+                title: "Poster Iklan VW Beetle Kodok Classic 1965",
+                category: "otomotif",
+                subTag: "eropa",
+                era: "1960s",
+                origin: "Jerman (1965)",
+                price: "Rp 150.000",
+                spot: "Kedai Kopi, Resto Vintage, Ruang Kerja",
+                image: "https://images.unsplash.com/photo-1526726538690-5cbf22934317?q=80&w=600&auto=format&fit=crop",
+                description: "Masterpiece gaya periklanan minimalis era 60-an karya DDB agency. Menekankan ketahanan dan keunikan mobil ikonik Volkswagen Beetle asal Jerman yang tak lekang oleh waktu."
+            },
+            {
+                id: 3,
+                title: "Iklan Ford Mustang Mach 1 Muscle Car 1969",
+                category: "otomotif",
+                subTag: "usa",
+                era: "1960s",
+                origin: "Amerika Serikat (1969)",
+                price: "Rp 160.000",
+                spot: "Garasi, Bar & Lounge, Kamar Pribadi",
+                image: "https://images.unsplash.com/photo-1584345604476-8ec5e12e42dd?q=80&w=600&auto=format&fit=crop",
+                description: "Iklan promosi gagah American Muscle Car Mustang 1969. Mengusung warna tebal dan tipografi tebal khas majalah otomotif Amerika abad ke-20 yang sangat berkarakter."
+            },
+            {
+                id: 4,
+                title: "Poster Vintage Coca-Cola Ice Cold 1950s",
+                category: "non-otomotif",
+                subTag: "minuman",
+                era: "1950s",
+                origin: "Amerika Serikat (1950)",
+                price: "Rp 120.000",
+                spot: "Restoran, Cafe, Dapur, Area Bar",
+                image: "https://images.unsplash.com/photo-1554866585-cd94860890b7?q=80&w=600&auto=format&fit=crop",
+                description: "Desain retro ikonik botol Coca-Cola era 50-an dengan warna merah warm hangat. Memberikan kesan ramah, santai, dan nostalgic di tempat makan atau dapur rumah."
+            },
+            {
+                id: 5,
+                title: "Iklan Kamera Film Kodak Retinette 1962",
+                category: "non-otomotif",
+                subTag: "hobi",
+                era: "1960s",
+                origin: "Amerika Serikat (1962)",
+                price: "Rp 125.000",
+                spot: "Studio Foto, Cafe, Kamar Belajar",
+                image: "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?q=80&w=600&auto=format&fit=crop",
+                description: "Iklan majalah fotografi analog klasik Kodak. Sangat dinikmati oleh para kolektor kamera antik, fotografer, dan pencinta estetika barang hobi tempo dulu."
+            },
+            {
+                id: 6,
+                title: "Iklan Mentega & Susu Olahan Jadul 1955",
+                category: "non-otomotif",
+                subTag: "makanan",
+                era: "1950s",
+                origin: "Eropa (1955)",
+                price: "Rp 110.000",
+                spot: "Bakery, Restoran Keluarga, Dapur Rumah",
+                image: "https://images.unsplash.com/photo-1589985270826-4b7bb135bc9d?q=80&w=600&auto=format&fit=crop",
+                description: "Ilustrasi klasik kemasan mentega & produk olahan susu era pertengahan abad 20. Gambar gaya lukisan tangan art-deco yang menghangatkan suasana dapur."
+            }
+        ];
+
+        let products = [...defaultProducts];
+        let currentCategory = 'all';
+        let currentSubTag = 'all';
+        let searchQuery = '';
+
+        // ROUTER / NAVIGATION SYSTEM
+        function routeApp() {
+            const hash = window.location.hash;
+            if (hash.startsWith('#detail-')) {
+                const id = parseInt(hash.replace('#detail-', ''));
+                showProductDetailPage(id);
+            } else {
+                showHomePage();
+            }
+        }
+
+        function showHomePage() {
+            document.getElementById('homeView').classList.remove('hidden');
+            document.getElementById('detailView').classList.add('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function navigateToHome() {
+            window.location.hash = '#katalog';
+            showHomePage();
+        }
+
+        function showProductDetailPage(id) {
+            const product = products.find(p => p.id === id);
+            if (!product) {
+                navigateToHome();
+                return;
+            }
+
+            // Populate Product Detail Page Elements
+            document.getElementById('detailImg').src = product.image;
+            document.getElementById('detailTitle').innerText = product.title;
+            document.getElementById('detailPrice').innerText = product.price;
+            document.getElementById('detailEraBadge').innerText = product.era;
+            document.getElementById('detailCatBadge').innerText = product.category;
+            document.getElementById('detailSubTagBadge').innerText = `#${product.subTag}`;
+            document.getElementById('detailSpot').innerText = product.spot;
+            document.getElementById('detailOrigin').innerText = product.origin || `${product.subTag.toUpperCase()} (${product.era})`;
+            document.getElementById('detailDesc').innerText = product.description;
+
+            // Breadcrumb Fill
+            document.getElementById('detailBreadcrumbCat').innerText = product.category;
+            document.getElementById('detailBreadcrumbTitle').innerText = product.title;
+
+            // WhatsApp Dynamic Button Link
+            const waText = `Halo Vintage Ads Co., Saya berminat membeli artikel iklan vintage ini:\n\n*${product.title}*\nHarga: ${product.price}\n\nApakah stok cetakannya ready untuk dipesan?`;
+            document.getElementById('detailWaBtn').href = `https://wa.me/6281234567890?text=${encodeURIComponent(waText)}`;
+
+            // Render Related Items
+            renderRelatedProducts(product);
+
+            // Toggle Page Views
+            document.getElementById('homeView').classList.add('hidden');
+            document.getElementById('detailView').classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function navigateToDetail(id) {
+            window.location.hash = `#detail-${id}`;
+        }
+
+        // Render Related Items in Detail Page
+        function renderRelatedProducts(currentProduct) {
+            const relatedGrid = document.getElementById('relatedGrid');
+            relatedGrid.innerHTML = '';
+            
+            const related = products.filter(p => p.id !== currentProduct.id && p.category === currentProduct.category).slice(0, 3);
+            
+            related.forEach(item => {
+                const card = document.createElement('div');
+                card.className = "bg-cream border border-charcoal/15 rounded-xl p-3 flex gap-3 items-center cursor-pointer hover:border-rust transition-all";
+                card.onclick = () => navigateToDetail(item.id);
+                card.innerHTML = `
+                    <img src="${item.image}" class="w-16 h-16 object-cover rounded-lg border border-charcoal/10" alt="${item.title}">
+                    <div class="overflow-hidden">
+                        <h4 class="font-bold text-xs text-charcoal truncate">${item.title}</h4>
+                        <span class="text-xs text-rust font-semibold block">${item.price}</span>
+                        <span class="text-[10px] text-charcoal-light uppercase">${item.era}</span>
+                    </div>
+                `;
+                relatedGrid.appendChild(card);
+            });
+        }
+
+        // Render Product Cards Grid
+        function renderProducts() {
+            const grid = document.getElementById('productsGrid');
+            const emptyState = document.getElementById('emptyState');
+            grid.innerHTML = '';
+
+            const filtered = products.filter(item => {
+                const matchCat = (currentCategory === 'all') || (item.category === currentCategory);
+                const matchTag = (currentSubTag === 'all') || (item.subTag === currentSubTag);
+                const matchSearch = item.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                                    item.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                                    item.era.toLowerCase().includes(searchQuery.toLowerCase());
+                return matchCat && matchTag && matchSearch;
+            });
+
+            if (filtered.length === 0) {
+                emptyState.classList.remove('hidden');
+            } else {
+                emptyState.classList.add('hidden');
+                filtered.forEach(product => {
+                    const card = document.createElement('div');
+                    card.className = "retro-card bg-cream rounded-2xl overflow-hidden flex flex-col justify-between cursor-pointer group";
+                    card.onclick = () => navigateToDetail(product.id);
+
+                    card.innerHTML = `
+                        <div>
+                            <div class="relative aspect-[4/3] bg-charcoal/5 overflow-hidden">
+                                <img src="${product.image}" alt="${product.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.src='https://placehold.co/600x400/2c2523/fcf8f2?text=Iklan+Vintage'">
+                                <div class="absolute top-3 left-3 flex gap-1.5">
+                                    <span class="badge-tag text-[10px] font-bold px-2.5 py-1 rounded-md bg-rust text-cream uppercase">${product.category}</span>
+                                    <span class="badge-tag text-[10px] font-bold px-2 py-1 rounded-md bg-charcoal/80 text-cream uppercase">${product.subTag}</span>
+                                </div>
+                                <span class="absolute bottom-2 right-2 text-[10px] font-mono font-bold bg-cream/90 text-charcoal px-2 py-0.5 rounded shadow">
+                                    ${product.era}
+                                </span>
+                            </div>
+
+                            <div class="p-5 space-y-2">
+                                <h3 class="font-serif-title font-bold text-lg text-charcoal group-hover:text-rust transition-colors line-clamp-2">${product.title}</h3>
+                                <p class="text-xs text-charcoal-light line-clamp-2 leading-relaxed">${product.description}</p>
+                                <div class="pt-2 flex items-center gap-1 text-[11px] text-olive font-semibold">
+                                    <i class="fa-solid fa-location-dot"></i>
+                                    <span class="truncate">${product.spot}</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="px-5 pb-5 pt-2 flex items-center justify-between border-t border-charcoal/5 mt-2">
+                            <div>
+                                <span class="text-[10px] text-charcoal-light/70 uppercase font-semibold block">Harga Cetak</span>
+                                <span class="font-bold text-rust text-base">${product.price}</span>
+                            </div>
+                            <button onclick="event.stopPropagation(); navigateToDetail(${product.id})" class="bg-cream-dark hover:bg-rust hover:text-cream text-charcoal border border-charcoal/20 px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all flex items-center gap-1.5">
+                                <span>Lihat Detail</span>
+                                <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                            </button>
+                        </div>
+                    `;
+                    grid.appendChild(card);
+                });
+            }
+        }
+
+        // Filtering Actions
+        function filterCategory(cat) {
+            currentCategory = cat;
+            document.querySelectorAll('.cat-btn').forEach(btn => {
+                btn.classList.remove('bg-rust', 'text-cream', 'shadow-sm');
+                btn.classList.add('bg-cream', 'text-charcoal', 'border', 'border-charcoal/15');
+            });
+
+            const activeTab = document.getElementById(`tab-${cat}`);
+            if (activeTab) {
+                activeTab.classList.remove('bg-cream', 'text-charcoal', 'border', 'border-charcoal/15');
+                activeTab.classList.add('bg-rust', 'text-cream', 'shadow-sm');
+            }
+
+            renderProducts();
+        }
+
+        function filterSubTag(tag, evt) {
+            currentSubTag = tag;
+            document.querySelectorAll('.subtab-btn').forEach(btn => {
+                btn.classList.remove('bg-charcoal', 'text-cream');
+                btn.classList.add('bg-cream', 'text-charcoal');
+            });
+
+            if (evt && evt.target) {
+                evt.target.classList.remove('bg-cream', 'text-charcoal');
+                evt.target.classList.add('bg-charcoal', 'text-cream');
+            }
+
+            renderProducts();
+        }
+
+        function handleSearch() {
+            searchQuery = document.getElementById('searchInput').value;
+            renderProducts();
+        }
+
+        function resetFilters() {
+            currentCategory = 'all';
+            currentSubTag = 'all';
+            searchQuery = '';
+            document.getElementById('searchInput').value = '';
+            filterCategory('all');
+        }
+
+        // Admin Add Modal Functions
+        function openAddModal() {
+            document.getElementById('addModal').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeAddModal() {
+            document.getElementById('addModal').classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+
+        function handleAddNewArticle(e) {
+            e.preventDefault();
+            const newObj = {
+                id: Date.now(),
+                title: document.getElementById('newTitle').value,
+                category: document.getElementById('newCategory').value,
+                subTag: document.getElementById('newSubTag').value,
+                era: document.getElementById('newEra').value,
+                origin: `${document.getElementById('newSubTag').value.toUpperCase()} (${document.getElementById('newEra').value})`,
+                price: document.getElementById('newPrice').value,
+                spot: document.getElementById('newSpot').value,
+                image: document.getElementById('newImage').value,
+                description: document.getElementById('newDesc').value
+            };
+
+            products.unshift(newObj);
+            renderProducts();
+            closeAddModal();
+            document.getElementById('addArticleForm').reset();
+            navigateToHome();
+        }
+
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        function closeMobileMenu() {
+            mobileMenu.classList.add('hidden');
+        }
+
+        // Event Listeners for Hash Route
+        window.addEventListener('hashchange', routeApp);
+
+        window.onload = function() {
+            renderProducts();
+            routeApp();
+        };
+    </script>
+</body>
+</html>
